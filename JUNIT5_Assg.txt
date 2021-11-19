@@ -1,0 +1,233 @@
+1.
+
+package io.junit5test;
+
+public class MinMax {
+	
+		int min;
+		int max;
+		public int[] numbers(int a[])  
+		{  
+			int[] arr= new int[2];
+			arr[0]=a[0];
+			arr[1]=a[0];
+			for(int i=1;i<a.length;i++)
+			{
+				if(a[i]>arr[1])
+				{
+					arr[1]=a[i];
+				}
+				if(a[i]<arr[0])
+				{
+					arr[0]=a[i];
+				}
+			}
+			
+			return arr;  
+		}  
+
+	}
+
+
+package io.junit5test;
+
+
+	import static org.junit.jupiter.api.Assertions.*;
+
+	
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
+	class MinMaxTest {
+
+		@Test
+		void test() {
+			MinMax m=new MinMax();
+			int a[]= {10,20,3,40,90,2,34,56};
+			int expected1[]= {2,90};
+			int expected2[]= {2,60};
+			int a1[]= {1,10,20,3,80,70,2,34,56};
+			int expected3[]= {1,80};
+			int actual[]=m.numbers(a);
+			int actual1[]=m.numbers(a1);
+			System.out.println(expected1);
+			for (int i : actual) {
+				System.out.println(i);
+			}
+			Assertions.assertArrayEquals( expected1, actual );
+			//Assert.assertArrayEquals( expected2, actual );
+			Assertions.assertArrayEquals( expected3, actual1 );
+			
+			
+		}
+
+	}
+
+
+2.
+
+package io.junit5test;
+
+public class MinMax2 {
+	
+
+		int min;
+		int max;
+		public MinMax2(int m,int n) {
+			min=m;
+			max=n;
+		}
+		
+		@Override
+		public String toString() {
+			return "MinMaxFinder2 [min=" + min + ", max=" + max + "]";
+		}
+
+		public MinMax2 numbers(int a[])  
+		{  
+			int[] arr= new int[2];
+			arr[0]=a[0];
+			arr[1]=a[0];
+			for(int i=1;i<a.length;i++)
+			{
+				if(a[i]>arr[1])
+				{
+					arr[1]=a[i];
+				}
+				if(a[i]<arr[0])
+				{
+					arr[0]=a[i];
+				}
+			}
+			MinMax2 k= new MinMax2(min,max);
+			return k;  
+		}
+
+	}
+package io.junit5test;
+
+
+	import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.Test;
+
+	class MinMax2Test {
+
+		@Test
+		void test() {
+			MinMax2 expected1=new MinMax2(2,70);
+			int a[]= {10,20,3,40,70,2,34,56};
+			MinMax2 expected2=new MinMax2(1,80);
+			int a1[]= {1,10,20,3,80,70,2,34,56};
+			String s=expected1.toString();
+			String s1=expected1.numbers(a).toString();
+			String s2=expected2.toString();
+			String s3=expected2.numbers(a).toString();
+			assertEquals( s, s1);
+			assertEquals(s2, s3);
+			//assertEquals(expected1, expected1.numbers(a));
+			//assertEquals(expected2, expected2.numbers(a1));
+		}
+
+	}
+
+3.
+
+package io.junit5test;
+class InsufficientBalanceException extends Exception
+{
+	public InsufficientBalanceException() {
+		// TODO Auto-generated constructor stub
+		System.out.println("InsufficientBalance in the savings account");
+	}
+}
+public class BankAccount {
+	double balance;
+	
+	public BankAccount(double balance) {
+		super();
+		this.balance = balance;
+	}
+
+	public double getBalance() {
+		return balance;
+	}
+
+	public void setBalance(double balance) {
+		this.balance = balance;
+	}
+
+	public double withdraw(double amount) throws InsufficientBalanceException
+	{
+		if(this.balance<amount)
+		{
+			throw new InsufficientBalanceException();
+		}
+		else
+		{
+			balance-=amount;
+		}
+		
+		return balance;
+	}
+
+}
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
+
+
+public class BankAccountTest {
+
+	@Test
+	void testWithdraw() {
+		BankAccount b=new BankAccount(5000);
+		assertThrows(InsufficientBalanceException.class,()->b.withdraw(6000),"Error in withdrawal");
+		//assertThrows(ArithmeticException.class,()->b.withdraw(6000),"Error in withdrawal");
+	}
+
+}
+
+
+4.
+
+public class AppTest {
+     
+    @BeforeAll
+    static void setup(){
+        System.out.println("@BeforeAll executed");
+    }
+     
+    @BeforeEach
+    void setupThis(){
+        System.out.println("@BeforeEach executed");
+    }
+     
+    @Test
+    void testCalcOne() 
+    {
+        System.out.println("======TEST ONE EXECUTED=======");
+        Assertions.assertEquals( 4 , Calculator.add(2, 2));
+    }
+     
+    @Test
+    void testCalcTwo() 
+    {
+        System.out.println("======TEST TWO EXECUTED=======");
+        Assertions.assertEquals( 6 , Calculator.add(2, 4));
+    }
+     
+    @AfterEach
+    void tearThis(){
+        System.out.println("@AfterEach executed");
+    }
+     
+    @AfterAll
+    static void tear(){
+        System.out.println("@AfterAll executed");
+    }
+}
+
+
+
